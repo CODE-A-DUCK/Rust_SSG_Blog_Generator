@@ -1,0 +1,15 @@
+[package]
+name = "generator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Lightest markdown parser
+pulldown-cmark = { version = "0.9", default-features = false }
+# Error handling
+anyhow = "1.0"
+chrono = "0.4.43"
+# Image processing for compression
+image = { version = "0.25", features = ["webp", "jpeg", "png"] }
+# File system operations check (std is fine, but walkdir is easier if nested, keeping it simple for now)
+# walkdir = "2"
