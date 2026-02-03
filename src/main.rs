@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use pulldown_cmark::{html, Parser, Event, Tag};
+use pulldown_cmark::{html, Parser, Event, Tag, TagEnd};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::collections::HashSet;
@@ -213,13 +213,13 @@ fn process_markdown(markdown: &str, title: &str, date: &str, tags: &[String], al
 
     for event in parser {
         match event {
-            Event::Start(Tag::Image(_link_type, url, title)) => {
+            Event::Start(Tag::Image { link_type: _, dest_url: url, title, id: _ }) => {
                 in_image = true;
                 image_url = url.to_string();
                 image_title = title.to_string();
                 image_alt.clear();
             },
-            Event::End(Tag::Image(..)) => {
+            Event::End(TagEnd::Image) => {
                 in_image = false;
                 
                 // optimize image
